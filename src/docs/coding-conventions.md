@@ -252,6 +252,15 @@ npm run test && npm run lint && npm run format && npm run build
 
 Общий подход — **TDD** (Test-Driven Development): сначала тест, потом код. Подробное руководство — в [`testing.md`](testing.md).
 
+## Ветвление
+
+- Для каждой новой фичи/задачи создаётся отдельная ветка от `master`
+- Формат имени ветки: `тип/описание`
+	- `feat/box-input-form`
+	- `fix/stack-height-calculation`
+	- `refactor/decompose-calculator`
+	- `test/stacking-tests`
+
 ## Коммиты
 
 - Формат: `тип: описание`

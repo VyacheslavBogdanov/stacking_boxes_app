@@ -1,39 +1,97 @@
-# component-library-vite
+# Stacking Boxes Calculator
 
-This template should help get you started developing with Vue 3 in Vite.
+Калькулятор штабелирования коробок — расчёт максимальной высоты штабеля, количества рядов и допустимого веса на коробку в зависимости от параметров коробки и марки картона.
 
-## Recommended IDE Setup
+## Функционал
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Ввод параметров коробки** — длина, ширина, высота (мм), вес брутто (кг), марка картона (из выпадающего списка)
+- **Расчёт результатов** — максимальная высота штабеля, количество рядов, максимальный вес на коробку
+- **Админ-панель** — управление списком марок картона (добавление, редактирование, удаление) с авторизацией
 
-## Type Support for `.vue` Imports in TS
+## Стек технологий
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+| Область      | Технология                                |
+| ------------ | ----------------------------------------- |
+| UI-фреймворк | Vue 3 (Composition API, `<script setup>`) |
+| Язык         | TypeScript 5 (strict mode)                |
+| Сборщик      | Vite                                      |
+| Стили        | SCSS (BEM)                                |
+| Состояние    | Pinia                                     |
+| Бэкенд       | Express.js (Node 22)                      |
+| Unit-тесты   | Vitest + @vue/test-utils                  |
+| E2E-тесты    | Playwright                                |
 
-## Customize configuration
+## Быстрый старт
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+**Требования:** Node.js 22
 
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Приложение будет доступно на `http://localhost:5173`.
 
-```sh
-npm run build
+## Команды
+
+| Команда              | Описание                                 |
+| -------------------- | ---------------------------------------- |
+| `npm run dev`        | Запуск dev-сервера Vite с HMR            |
+| `npm run build`      | Проверка типов + продакшн-сборка         |
+| `npm run build-only` | Продакшн-сборка без проверки типов       |
+| `npm run type-check` | Проверка типов через vue-tsc             |
+| `npm run lint`       | ESLint с автоисправлением                |
+| `npm run format`     | Форматирование src/ через Prettier       |
+| `npm run preview`    | Локальный просмотр продакшн-сборки       |
+| `npm run test`       | Unit-тесты Vitest (однократно)           |
+| `npm run test:watch` | Vitest в watch-режиме                    |
+| `npm run test:e2e`   | E2E-тесты Playwright                     |
+
+## Структура проекта
+
+```
+stacking_boxes_app/
+├── e2e/                  — E2E-тесты Playwright (*.spec.ts)
+├── public/               — статические ресурсы
+├── src/
+│   ├── api/              — HTTP-клиент и сервисы для работы с API
+│   ├── components/       — Vue-компоненты
+│   │   └── ui/           — базовые переиспользуемые компоненты
+│   ├── composables/      — переиспользуемая логика (use*)
+│   ├── stores/           — Pinia-сторы
+│   ├── styles/           — SCSS: переменные, миксины, глобальные стили
+│   ├── types/            — TypeScript-типы и интерфейсы
+│   ├── docs/             — документация проекта
+│   ├── App.vue           — корневой компонент
+│   └── main.ts           — точка входа приложения
+├── vite.config.ts        — конфигурация Vite
+├── vitest.config.ts      — конфигурация Vitest
+├── playwright.config.ts  — конфигурация Playwright
+└── package.json          — зависимости и npm-скрипты
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Архитектура
 
-```sh
-npm run lint
+Приложение разделено на слои с чёткой ответственностью:
+
 ```
+Types → API → Stores → Composables → Components → Template
+```
+
+- **Types** — интерфейсы и типы данных
+- **API** — HTTP-клиент, сервисные функции для эндпоинтов
+- **Stores** — Pinia-сторы, реактивное состояние приложения
+- **Composables** — бизнес-логика, валидация, обработка ошибок
+- **Components** — UI-компоненты и feature-компоненты
+
+Подробнее — в [документации по архитектуре](src/docs/architecture.md).
+
+## Документация
+
+| Документ | Описание |
+| -------- | -------- |
+| [Архитектура](src/docs/architecture.md) | Слои, структура папок, поток данных, конфигурация |
+| [Соглашения по коду](src/docs/coding-conventions.md) | Именование, форматирование, правила и примеры |
+| [Тестирование](src/docs/testing.md) | TDD-подход, шаблоны тестов, примеры |
+| [План реализации](src/docs/implementation-plan.md) | Этапы и порядок реализации |
+| [Техническое задание](src/docs/technical_specification.md) | Требования к функционалу приложения |
