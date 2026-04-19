@@ -1,5 +1,13 @@
 # Тестирование и TDD
 
+## Команды
+
+| Команда            | Описание                                  |
+| ------------------ | ----------------------------------------- |
+| `npm run test`     | Запуск unit-тестов (Vitest, однократно)   |
+| `npm run test:watch` | Запуск Vitest в watch-режиме            |
+| `npm run test:e2e` | Запуск E2E-тестов (Playwright)            |
+
 ## Подход к разработке — TDD
 
 Новые фичи разрабатываются по циклу **Red → Green → Refactor**:
@@ -11,7 +19,7 @@
 ### Когда применять TDD
 
 - Новые composables и утилиты
-- Компоненты с логикой (вычисления, фильтрация, валидация)
+- Компоненты с логикой (расчёт штабеля, валидация размеров, выбор марки картона)
 - Исправление багов (сначала тест, воспроизводящий баг)
 
 ### Когда допустимо не применять
@@ -36,17 +44,17 @@
 Прямые assertions без дополнительной обвязки.
 
 ```ts
-// src/utils/format.test.ts
+// src/utils/stackCalculation.test.ts
 import { describe, it, expect } from 'vitest';
-import { roundInt } from './format';
+import { calculateMaxRows, calculateMaxStackHeight } from './stackCalculation';
 
-describe('roundInt', () => {
-	it('округляет дробное число', () => {
-		expect(roundInt(3.7)).toBe(4);
+describe('calculateMaxRows', () => {
+	it('рассчитывает количество рядов по высоте и весу', () => {
+		expect(calculateMaxRows({ height: 300, grossWeight: 10, maxStackHeight: 2400 })).toBe(8);
 	});
 
-	it('возвращает 0 для null', () => {
-		expect(roundInt(null)).toBe(0);
+	it('возвращает 1 для слишком тяжёлой коробки', () => {
+		expect(calculateMaxRows({ height: 300, grossWeight: 500, maxStackHeight: 2400 })).toBe(1);
 	});
 });
 ```
@@ -56,26 +64,30 @@ describe('roundInt', () => {
 Создать `ref` → вызвать composable → проверить computed/reactive. Хелпер-фабрика для тестовых данных упрощает создание объектов.
 
 ```ts
-// src/composables/useProjectFilters.test.ts
+// src/composables/useStackCalculation.test.ts
 import { describe, it, expect } from 'vitest';
 import { ref } from 'vue';
-import { useProjectFilters } from './useProjectFilters';
-import type { Project } from '../types/domain';
+import { useStackCalculation } from './useStackCalculation';
+import type { BoxInput } from '../types/domain';
 
-function makeProject(overrides: Partial<Project> & { id: number; name: string }): Project {
-	return { ...overrides };
+function makeBoxInput(overrides: Partial<BoxInput> = {}): BoxInput {
+	return {
+		length: 400,
+		width: 300,
+		height: 200,
+		grossWeight: 10,
+		cardboardGrade: 'Т23',
+		...overrides,
+	};
 }
 
-describe('useProjectFilters', () => {
-	it('фильтрует по заказчику', () => {
-		const projects = ref<Project[]>([
-			makeProject({ id: 1, name: 'A', customer: 'Яндекс' }),
-			makeProject({ id: 2, name: 'B', customer: 'Авито' }),
-		]);
-		const { selectedCustomers, filteredProjects } = useProjectFilters(projects);
+describe('useStackCalculation', () => {
+	it('рассчитывает высоту штабеля для марки Т23', () => {
+		const box = ref(makeBoxInput({ cardboardGrade: 'Т23' }));
+		const { maxStackHeight, maxRows } = useStackCalculation(box);
 
-		selectedCustomers.value = ['Яндекс'];
-		expect(filteredProjects.value).toHaveLength(1);
+		expect(maxStackHeight.value).toBeGreaterThan(0);
+		expect(maxRows.value).toBeGreaterThanOrEqual(1);
 	});
 });
 ```
@@ -85,26 +97,28 @@ describe('useProjectFilters', () => {
 `mount()` с props/slots → проверить DOM, классы, эмиты.
 
 ```ts
-// src/components/ui/BaseButton.test.ts
+// src/components/BoxInputForm.test.ts
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import BaseButton from './BaseButton.vue';
+import BoxInputForm from './BoxInputForm.vue';
 
-describe('BaseButton', () => {
-	it('рендерит слот', () => {
-		const wrapper = mount(BaseButton, { slots: { default: 'Нажми' } });
-		expect(wrapper.text()).toBe('Нажми');
+describe('BoxInputForm', () => {
+	it('рендерит поля ввода размеров', () => {
+		const wrapper = mount(BoxInputForm);
+		expect(wrapper.find('[data-test="length"]').exists()).toBe(true);
+		expect(wrapper.find('[data-test="width"]').exists()).toBe(true);
+		expect(wrapper.find('[data-test="height"]').exists()).toBe(true);
 	});
 
-	it('применяет variant primary', () => {
-		const wrapper = mount(BaseButton, { props: { variant: 'primary' } });
-		expect(wrapper.classes()).toContain('base-btn--primary');
+	it('рендерит выпадающий список марок картона', () => {
+		const wrapper = mount(BoxInputForm);
+		expect(wrapper.find('select').exists()).toBe(true);
 	});
 
-	it('эмитит click', async () => {
-		const wrapper = mount(BaseButton);
-		await wrapper.trigger('click');
-		expect(wrapper.emitted('click')).toBeTruthy();
+	it('эмитит calculate с данными коробки', async () => {
+		const wrapper = mount(BoxInputForm);
+		await wrapper.find('[data-test="calculate-btn"]').trigger('click');
+		expect(wrapper.emitted('calculate')).toBeTruthy();
 	});
 });
 ```
@@ -113,35 +127,30 @@ describe('BaseButton', () => {
 
 ### Правила
 
-- Локаторы: CSS-классы, `placeholder`, `h1`, `a[href="..."]`
+- Локаторы: CSS-классы, `placeholder`, `data-test`, `h1`, `a[href="..."]`
 - Таймауты ожидания: 5–10 секунд (`{ timeout: 10_000 }`)
-- `resetData()` в `beforeEach` для очистки состояния между тестами
 - Описания тестов на русском языке
 
 ### Шаблон
 
 ```ts
-// e2e/example.spec.ts
+// e2e/stack-calculator.spec.ts
 import { test, expect } from '@playwright/test';
-import { resetData } from './helpers/reset-data';
 
-test.beforeEach(async () => {
-	await resetData();
-});
+test.describe('Калькулятор штабелирования', () => {
+	test('рассчитывает штабель для введённых параметров коробки', async ({ page }) => {
+		await page.goto('/');
 
-test.describe('Название раздела', () => {
-	test('описание сценария', async ({ page }) => {
-		await page.goto('/plan');
-		await expect(page.locator('h1')).toContainText('Ресурсный план');
+		await page.fill('[data-test="length"]', '400');
+		await page.fill('[data-test="width"]', '300');
+		await page.fill('[data-test="height"]', '200');
+		await page.fill('[data-test="gross-weight"]', '10');
+		await page.selectOption('[data-test="cardboard-grade"]', 'Т23');
+
+		await page.click('[data-test="calculate-btn"]');
+
+		await expect(page.locator('[data-test="max-stack-height"]')).toBeVisible();
+		await expect(page.locator('[data-test="max-rows"]')).toBeVisible();
 	});
 });
 ```
-
-## Команды
-
-| Команда              | Описание                                       |
-| -------------------- | ---------------------------------------------- |
-| `npm run test`       | Запуск unit-тестов                             |
-| `npm run test:watch` | Unit-тесты в watch-режиме                      |
-| `npm run test:e2e`   | E2E-тесты (требует запущенный dev-сервер)      |
-| `npm run test:all`   | Unit + E2E последовательно                     |
