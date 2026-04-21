@@ -165,3 +165,41 @@
 **Зависимости:** Задачи 8, 9 (всё приложение собрано).
 
 **Критерий готовности:** `npm run test:e2e` проходит, все сценарии зелёные.
+
+---
+
+## - [ ] Задача 11. Расчётная утилита (фронтенд)
+
+**Цель:** реализовать логику расчёта штабелирования на фронтенде. Формулы в файле `Калькулятор.xlsx`.
+
+**Файлы:**
+
+-   [ ] `src/types/gradeProperties.ts` — интерфейс `GradeProperties { thickness: number; crushResistance: number }`
+-   [ ] `src/types/index.ts` — реэкспорт `GradeProperties`
+-   [ ] `src/utils/constants.ts` — константы расчёта
+-   [ ] `src/utils/stackCalculation.ts` — чистая функция `calculateStacking(params: BoxParams, grade: GradeProperties): CalculationResult`
+-   [ ] `src/utils/stackCalculation.test.ts` — unit-тесты
+
+**Зависимости:** Задача 1 (типы).
+
+**Критерий готовности:** unit-тесты проходят (`npm run test`), функция возвращает корректные результаты по формулам из `Калькулятор.xlsx`.
+
+---
+
+## - [ ] Задача 12. Бэкенд Express
+
+**Цель:** Express-сервер в папке `server/` с CRUD марок картона, эндпоинтом расчёта и авторизацией админа. Свойства марок (thickness, crushResistance) хранятся отдельным маппингом (не в CardboardGrade). Формулы в файле `Калькулятор.xlsx`.
+
+**Файлы:**
+
+-   [ ] `server/index.ts` — Express-приложение (cors, json-парсинг, порт 5011)
+-   [ ] `server/data/grades.json` — начальные данные марок `[{id, name}]`
+-   [ ] `server/data/gradeProperties.json` — маппинг `gradeId → {thickness, crushResistance}`
+-   [ ] `server/routes/grades.ts` — GET/POST/PUT/DELETE `/grades`
+-   [ ] `server/routes/calculate.ts` — POST `/calculate`
+-   [ ] `server/routes/auth.ts` — POST `/login`, `/logout`
+-   [ ] npm-скрипт `"server": "nodemon server/index.ts"` в `package.json`
+
+**Зависимости:** Задача 11 (расчётная утилита).
+
+**Критерий готовности:** сервер запускается на порту 5011, CRUD марок работает, эндпоинт расчёта возвращает корректные результаты, авторизация админа функционирует.
