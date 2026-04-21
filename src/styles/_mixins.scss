@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 @mixin font-size($size) {
 	@if $size == 'xs' {
 		font-size: $font-size-xs;
