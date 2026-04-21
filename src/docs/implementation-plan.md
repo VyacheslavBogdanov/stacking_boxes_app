@@ -5,16 +5,16 @@
 
 ---
 
-## - [ ] Задача 1. Типы и интерфейсы
+## - [x] Задача 1. Типы и интерфейсы
 
 **Цель:** определить TypeScript-типы для всего приложения.
 
 **Файлы:**
 
-- [ ] `src/types/cardboardGrade.ts` — интерфейс марки картона (`CardboardGrade`)
-- [ ] `src/types/boxParams.ts` — параметры коробки (`BoxParams`: length, width, height, grossWeight, gradeId)
-- [ ] `src/types/calculationResult.ts` — результат расчёта (`CalculationResult`: maxStackHeight, rowCount, maxWeightPerBox)
-- [ ] `src/types/index.ts` — реэкспорт всех типов
+-   [x] `src/types/cardboardGrade.ts` — интерфейс марки картона (`CardboardGrade`)
+-   [x] `src/types/boxParams.ts` — параметры коробки (`BoxParams`: length, width, height, grossWeight, gradeId)
+-   [x] `src/types/calculationResult.ts` — результат расчёта (`CalculationResult`: maxStackHeight, rowCount, maxWeightPerBox)
+-   [x] `src/types/index.ts` — реэкспорт всех типов
 
 **Критерий готовности:** `npm run type-check` проходит без ошибок.
 
@@ -26,11 +26,11 @@
 
 **Файлы:**
 
-- [ ] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
-- [ ] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
-- [ ] `src/api/calculationApi.ts` — запрос расчёта штабелирования
-- [ ] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
-- [ ] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
+-   [ ] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
+-   [ ] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
+-   [ ] `src/api/calculationApi.ts` — запрос расчёта штабелирования
+-   [ ] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
+-   [ ] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
 
 **Критерий готовности:** unit-тесты проходят (`npm run test`), типы корректны.
 
@@ -42,10 +42,10 @@
 
 **Файлы:**
 
-- [ ] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
-- [ ] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
-- [ ] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
-- [ ] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
+-   [ ] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
+-   [ ] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
+-   [ ] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
+-   [ ] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
 
 **Зависимости:** Задача 1 (типы), Задача 2 (API-сервис).
 
@@ -59,12 +59,12 @@
 
 **Файлы:**
 
-- [ ] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
-- [ ] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
-- [ ] `src/composables/useAdmin.ts` — логика авторизации админа
-- [ ] `src/composables/useStackCalculation.test.ts` — unit-тесты
-- [ ] `src/composables/useCardboardGrades.test.ts` — unit-тесты
-- [ ] `src/composables/useAdmin.test.ts` — unit-тесты
+-   [ ] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
+-   [ ] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
+-   [ ] `src/composables/useAdmin.ts` — логика авторизации админа
+-   [ ] `src/composables/useStackCalculation.test.ts` — unit-тесты
+-   [ ] `src/composables/useCardboardGrades.test.ts` — unit-тесты
+-   [ ] `src/composables/useAdmin.test.ts` — unit-тесты
 
 **Зависимости:** Задача 3 (стор).
 
@@ -78,14 +78,14 @@
 
 **Файлы:**
 
-- [ ] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
-- [ ] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
-- [ ] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
-- [ ] `src/components/ui/BaseInput.test.ts` — unit-тесты
-- [ ] `src/components/ui/BaseButton.test.ts` — unit-тесты
-- [ ] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
-- [ ] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
-- [ ] `src/styles/_mixins.scss` — SCSS-миксины
+-   [ ] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
+-   [ ] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
+-   [ ] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
+-   [ ] `src/components/ui/BaseInput.test.ts` — unit-тесты
+-   [ ] `src/components/ui/BaseButton.test.ts` — unit-тесты
+-   [ ] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
+-   [ ] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
+-   [ ] `src/styles/_mixins.scss` — SCSS-миксины
 
 **Критерий готовности:** компоненты рендерятся, принимают props, эмитят события, тесты проходят.
 
@@ -97,8 +97,8 @@
 
 **Файлы:**
 
-- [ ] `src/components/BoxInputForm.vue` — форма: длина, ширина, высота (мм), масса брутто (кг), марка картона (дропдаун)
-- [ ] `src/components/BoxInputForm.test.ts` — unit-тесты
+-   [ ] `src/components/BoxInputForm.vue` — форма: длина, ширина, высота (мм), масса брутто (кг), марка картона (дропдаун)
+-   [ ] `src/components/BoxInputForm.test.ts` — unit-тесты
 
 **Зависимости:** Задача 4 (composables), Задача 5 (UI-компоненты).
 
@@ -112,8 +112,8 @@
 
 **Файлы:**
 
-- [ ] `src/components/ResultsDisplay.vue` — макс. высота штабеля (мм), кол-во рядов (шт), макс. масса на коробку (кг)
-- [ ] `src/components/ResultsDisplay.test.ts` — unit-тесты
+-   [ ] `src/components/ResultsDisplay.vue` — макс. высота штабеля (мм), кол-во рядов (шт), макс. масса на коробку (кг)
+-   [ ] `src/components/ResultsDisplay.test.ts` — unit-тесты
 
 **Зависимости:** Задача 1 (типы).
 
@@ -127,8 +127,8 @@
 
 **Файлы:**
 
-- [ ] `src/App.vue` — подключение BoxInputForm + ResultsDisplay, вызов расчёта
-- [ ] `src/styles/main.scss` — глобальные стили приложения
+-   [ ] `src/App.vue` — подключение BoxInputForm + ResultsDisplay, вызов расчёта
+-   [ ] `src/styles/main.scss` — глобальные стили приложения
 
 **Зависимости:** Задача 6 (форма), Задача 7 (результаты).
 
@@ -142,10 +142,10 @@
 
 **Файлы:**
 
-- [ ] `src/components/AdminLogin.vue` — форма входа админа
-- [ ] `src/components/AdminPanel.vue` — таблица марок картона с кнопками добавить/редактировать/удалить
-- [ ] `src/components/AdminLogin.test.ts` — unit-тесты
-- [ ] `src/components/AdminPanel.test.ts` — unit-тесты
+-   [ ] `src/components/AdminLogin.vue` — форма входа админа
+-   [ ] `src/components/AdminPanel.vue` — таблица марок картона с кнопками добавить/редактировать/удалить
+-   [ ] `src/components/AdminLogin.test.ts` — unit-тесты
+-   [ ] `src/components/AdminPanel.test.ts` — unit-тесты
 
 **Зависимости:** Задача 4 (composables), Задача 5 (UI-компоненты).
 
@@ -159,8 +159,8 @@
 
 **Файлы:**
 
-- [ ] `e2e/calculator.spec.ts` — сценарий: заполнение формы → получение результата
-- [ ] `e2e/admin.spec.ts` — сценарий: вход админа → CRUD марок картона
+-   [ ] `e2e/calculator.spec.ts` — сценарий: заполнение формы → получение результата
+-   [ ] `e2e/admin.spec.ts` — сценарий: вход админа → CRUD марок картона
 
 **Зависимости:** Задачи 8, 9 (всё приложение собрано).
 
