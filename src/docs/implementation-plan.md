@@ -20,17 +20,17 @@
 
 ---
 
-## - [ ] Задача 2. API-сервис
+## - [x] Задача 2. API-сервис
 
 **Цель:** слой взаимодействия с бэкендом через `/api` прокси.
 
 **Файлы:**
 
--   [ ] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
--   [ ] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
--   [ ] `src/api/calculationApi.ts` — запрос расчёта штабелирования
--   [ ] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
--   [ ] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
+-   [x] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
+-   [x] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
+-   [x] `src/api/calculationApi.ts` — запрос расчёта штабелирования
+-   [x] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
+-   [x] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
 
 **Критерий готовности:** unit-тесты проходят (`npm run test`), типы корректны.
 
