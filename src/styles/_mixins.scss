@@ -1,0 +1,29 @@
+@mixin font-size($size) {
+	@if $size == 'xs' {
+		font-size: $font-size-xs;
+		line-height: $line-height-tight;
+	} @else if $size == 'sm' {
+		font-size: $font-size-sm;
+		line-height: $line-height-normal;
+	} @else if $size == 'md' {
+		font-size: $font-size-md;
+		line-height: $line-height-normal;
+	} @else if $size == 'lg' {
+		font-size: $font-size-lg;
+		line-height: $line-height-normal;
+	} @else if $size == 'xl' {
+		font-size: $font-size-xl;
+		line-height: $line-height-tight;
+	}
+}
+
+@mixin focus-ring($color: $color-border-focus) {
+	outline: 2px solid $color;
+	outline-offset: 2px;
+}
+
+@mixin transition($properties...) {
+	transition-property: $properties;
+	transition-duration: 200ms;
+	transition-timing-function: ease;
+}

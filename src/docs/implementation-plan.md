@@ -72,20 +72,20 @@
 
 ---
 
-## - [ ] Задача 5. Базовые UI-компоненты
+## - [x] Задача 5. Базовые UI-компоненты
 
 **Цель:** переиспользуемые UI-элементы с BEM/SCSS.
 
 **Файлы:**
 
--   [ ] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
--   [ ] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
--   [ ] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
--   [ ] `src/components/ui/BaseInput.test.ts` — unit-тесты
--   [ ] `src/components/ui/BaseButton.test.ts` — unit-тесты
--   [ ] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
--   [ ] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
--   [ ] `src/styles/_mixins.scss` — SCSS-миксины
+-   [x] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
+-   [x] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
+-   [x] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
+-   [x] `src/components/ui/BaseInput.test.ts` — unit-тесты
+-   [x] `src/components/ui/BaseButton.test.ts` — unit-тесты
+-   [x] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
+-   [x] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
+-   [x] `src/styles/_mixins.scss` — SCSS-миксины
 
 **Критерий готовности:** компоненты рендерятся, принимают props, эмитят события, тесты проходят.
 
