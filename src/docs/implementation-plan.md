@@ -190,16 +190,71 @@
 
 **Цель:** Express-сервер в папке `server/` с CRUD марок картона, эндпоинтом расчёта и авторизацией админа. Свойства марок (thickness, crushResistance) хранятся отдельным маппингом (не в CardboardGrade). Формулы в файле `Калькулятор.xlsx`.
 
-**Файлы:**
+### Авторизация и безопасность
 
--   [ ] `server/index.ts` — Express-приложение (cors, json-парсинг, порт 5011)
--   [ ] `server/data/grades.json` — начальные данные марок `[{id, name}]`
--   [ ] `server/data/gradeProperties.json` — маппинг `gradeId → {thickness, crushResistance}`
+**Хеширование пароля:**
+
+-   Пароль админа хранится в `.env` как bcrypt-хеш (`ADMIN_PASSWORD_HASH`)
+-   Библиотека: `bcryptjs` (чистый JS, без нативных зависимостей)
+-   При POST `/login` сервер сравнивает пароль с хешем через `bcryptjs.compare()`
+
+**JWT-токены:**
+
+-   При успешном логине сервер создаёт JWT с payload `{ sub: username }`, TTL 8 часов
+-   Секрет подписи — `JWT_SECRET` из `.env`
+-   Фронтенд отправляет токен в заголовке `Authorization: Bearer <token>`
+
+**Хранение секретов:**
+
+-   Файл `.env` (НЕ коммитится, добавлен в `.gitignore`):
+    ```
+    ADMIN_USERNAME=admin
+    ADMIN_PASSWORD_HASH=$2a$10$...
+    JWT_SECRET=<случайная строка 32+ символов>
+    PORT=5011
+    ```
+-   Файл `.env.example` (коммитится) — шаблон без значений
+
+**Защищённые маршруты:**
+
+-   POST/PUT/DELETE `/grades` — требуют JWT (authMiddleware)
+-   GET `/grades`, POST `/calculate`, POST `/login` — публичные
+
+### Зависимости для установки
+
+**Runtime:** `bcryptjs`, `jsonwebtoken`, `dotenv`
+**Dev:** `tsx`, `@types/express`, `@types/cors`, `@types/jsonwebtoken`, `@types/bcryptjs`
+
+> `express`, `cors`, `uuid`, `nodemon` — уже установлены
+
+### Файлы
+
+-   [ ] `server/app.ts` — создание Express-приложения (cors, json, маршруты), экспорт для тестов
+-   [ ] `server/index.ts` — импорт app, запуск `.listen(PORT)`
+-   [ ] `server/config.ts` — загрузка `.env` через dotenv, экспорт типизированных констант
+-   [ ] `server/types.ts` — серверные интерфейсы (GradeProperties, AuthPayload и др.)
+-   [ ] `server/middleware/authMiddleware.ts` — проверка JWT из заголовка Authorization
 -   [ ] `server/routes/grades.ts` — GET/POST/PUT/DELETE `/grades`
 -   [ ] `server/routes/calculate.ts` — POST `/calculate`
 -   [ ] `server/routes/auth.ts` — POST `/login`, `/logout`
--   [ ] npm-скрипт `"server": "nodemon server/index.ts"` в `package.json`
+-   [ ] `server/helpers/jsonStore.ts` — чтение/запись JSON-файлов данных
+-   [ ] `server/data/grades.json` — начальные данные марок `[{id, name}]`
+-   [ ] `server/data/gradeProperties.json` — маппинг `gradeId → {thickness, crushResistance}`
+-   [ ] `tsconfig.server.json` — TypeScript-конфиг для серверного кода
+-   [ ] `.env` — секреты (не коммитится)
+-   [ ] `.env.example` — шаблон `.env`
+-   [ ] npm-скрипт `"server": "nodemon"` + `nodemon.json` с `exec: "tsx server/index.ts"`
+
+### Тесты
+
+Тесты серверного кода — рядом с исходниками (`*.test.ts`), с `// @vitest-environment node`:
+
+-   [ ] `server/routes/auth.test.ts`
+-   [ ] `server/routes/grades.test.ts`
+-   [ ] `server/routes/calculate.test.ts`
+-   [ ] `server/middleware/authMiddleware.test.ts`
+-   [ ] `server/helpers/jsonStore.test.ts`
 
 **Зависимости:** Задача 11 (расчётная утилита).
 
-**Критерий готовности:** сервер запускается на порту 5011, CRUD марок работает, эндпоинт расчёта возвращает корректные результаты, авторизация админа функционирует.
+**Критерий готовности:** сервер запускается на порту 5011, CRUD марок работает, эндпоинт расчёта возвращает корректные результаты, авторизация админа через bcrypt + JWT функционирует, секреты не попадают в git.
