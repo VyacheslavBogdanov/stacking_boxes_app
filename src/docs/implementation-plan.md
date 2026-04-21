@@ -36,16 +36,16 @@
 
 ---
 
-## - [ ] Задача 3. Стор (Pinia)
+## - [x] Задача 3. Стор (Pinia)
 
 **Цель:** управление состоянием приложения.
 
 **Файлы:**
 
--   [ ] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
--   [ ] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
--   [ ] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
--   [ ] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
+-   [x] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
+-   [x] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
+-   [x] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
+-   [x] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
 
 **Зависимости:** Задача 1 (типы), Задача 2 (API-сервис).
 
@@ -53,18 +53,18 @@
 
 ---
 
-## - [ ] Задача 4. Composables
+## - [x] Задача 4. Composables
 
 **Цель:** переиспользуемая логика для компонентов.
 
 **Файлы:**
 
--   [ ] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
--   [ ] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
--   [ ] `src/composables/useAdmin.ts` — логика авторизации админа
--   [ ] `src/composables/useStackCalculation.test.ts` — unit-тесты
--   [ ] `src/composables/useCardboardGrades.test.ts` — unit-тесты
--   [ ] `src/composables/useAdmin.test.ts` — unit-тесты
+-   [x] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
+-   [x] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
+-   [x] `src/composables/useAdmin.ts` — логика авторизации админа
+-   [x] `src/composables/useStackCalculation.test.ts` — unit-тесты
+-   [x] `src/composables/useCardboardGrades.test.ts` — unit-тесты
+-   [x] `src/composables/useAdmin.test.ts` — unit-тесты
 
 **Зависимости:** Задача 3 (стор).
 
