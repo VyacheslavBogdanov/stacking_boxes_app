@@ -10,11 +10,11 @@
 
 ### SOLID
 
-- **S — Single Responsibility:** один компонент / composable / store — одна задача. Если компонент растёт — декомпозировать
-- **O — Open/Closed:** расширять поведение через props, slots и composables, не модифицируя существующие компоненты
-- **L — Liskov Substitution:** компоненты с одинаковым интерфейсом (props/emits) должны быть взаимозаменяемы
-- **I — Interface Segregation:** интерфейсы TypeScript должны быть специализированными, не раздутыми. Не заставлять компонент зависеть от полей, которые он не использует
-- **D — Dependency Inversion:** компоненты зависят от абстракций (интерфейсы, composables), а не от конкретных реализаций (прямые вызовы fetch, localStorage)
+-   **S — Single Responsibility:** один компонент / composable / store — одна задача. Если компонент растёт — декомпозировать
+-   **O — Open/Closed:** расширять поведение через props, slots и composables, не модифицируя существующие компоненты
+-   **L — Liskov Substitution:** компоненты с одинаковым интерфейсом (props/emits) должны быть взаимозаменяемы
+-   **I — Interface Segregation:** интерфейсы TypeScript должны быть специализированными, не раздутыми. Не заставлять компонент зависеть от полей, которые он не использует
+-   **D — Dependency Inversion:** компоненты зависят от абстракций (интерфейсы, composables), а не от конкретных реализаций (прямые вызовы fetch, localStorage)
 
 ### DRY — Don't Repeat Yourself
 
@@ -22,29 +22,29 @@
 
 ## Структура файлов
 
-- Один компонент = один файл (SFC)
-- Максимум 300 строк на компонент
-- Максимум 100 символов в строке
-- Если компонент растёт — декомпозировать на подкомпоненты
-- Понятные имена файлов: `StackCalculator.vue`, не `Calculator.vue`
+-   Один компонент = один файл (SFC)
+-   Максимум 300 строк на компонент
+-   Максимум 100 символов в строке
+-   Если компонент растёт — декомпозировать на подкомпоненты
+-   Понятные имена файлов: `StackCalculator.vue`, не `Calculator.vue`
 
 ## Именование
 
 ### Файлы и директории
 
-- Компоненты: `PascalCase.vue` (`BoxInputForm.vue`)
-- TypeScript файлы: `camelCase.ts` (`stackCalculation.ts`)
-- SCSS файлы: `_kebab-case.scss` (`_variables.scss`)
-- Директории: `kebab-case` (`components/`, `stores/`)
+-   Компоненты: `PascalCase.vue` (`BoxInputForm.vue`)
+-   TypeScript файлы: `camelCase.ts` (`stackCalculation.ts`)
+-   SCSS файлы: `_kebab-case.scss` (`_variables.scss`)
+-   Директории: `kebab-case` (`components/`, `stores/`)
 
 ### Код
 
-- Переменные и функции: `camelCase`
-- Интерфейсы и типы: `PascalCase`
-- Константы: `UPPER_SNAKE_CASE`
-- Props: `camelCase`
-- Emit events: `kebab-case` (`update-dimensions`)
-- CSS классы: БЭМ (`box-input__field--error`)
+-   Переменные и функции: `camelCase`
+-   Интерфейсы и типы: `PascalCase`
+-   Константы: `UPPER_SNAKE_CASE`
+-   Props: `camelCase`
+-   Emit events: `kebab-case` (`update-dimensions`)
+-   CSS классы: БЭМ (`box-input__field--error`)
 
 ### Примеры
 
@@ -77,14 +77,14 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const volume = computed(() =>
-	props.box.length * props.box.width * props.box.height,
-);
+const volume = computed(() => props.box.length * props.box.width * props.box.height);
 </script>
 
 <template>
 	<div class="box-card">
-		<h3 class="box-card__title">{{ props.box.length }} × {{ props.box.width }} × {{ props.box.height }}</h3>
+		<h3 class="box-card__title">
+			{{ props.box.length }} × {{ props.box.width }} × {{ props.box.height }}
+		</h3>
 		<span class="box-card__volume">{{ volume }} мм³</span>
 	</div>
 </template>
@@ -137,8 +137,8 @@ function formatDimension(mm) {
 
 ### Типы vs Интерфейсы
 
-- `interface` — для объектов и props
-- `type` — для union типов и утилитных типов
+-   `interface` — для объектов и props
+-   `type` — для union типов и утилитных типов
 
 ```typescript
 // Interface для объектов
@@ -254,29 +254,29 @@ npm run test && npm run lint && npm run format && npm run build
 
 ## Ветвление
 
-- Для каждой новой фичи/задачи создаётся отдельная ветка от `master`
-- Формат имени ветки: `тип/описание`
-	- `feat/box-input-form`
-	- `fix/stack-height-calculation`
-	- `refactor/decompose-calculator`
-	- `test/stacking-tests`
+-   Для каждой новой фичи/задачи создаётся отдельная ветка от `master`
+-   Формат имени ветки: `тип/описание`
+    -   `feat/box-input-form`
+    -   `fix/stack-height-calculation`
+    -   `refactor/decompose-calculator`
+    -   `test/stacking-tests`
 
 ## Коммиты
 
-- Формат: `тип: описание`
-	- `feat: добавить форму ввода параметров коробки`
-	- `fix: исправить расчёт высоты штабеля`
-	- `style: обновить стили карточки результатов`
-	- `refactor: декомпозировать StackCalculator`
-	- `test: добавить тесты для расчёта штабелирования`
+-   Формат: `тип: описание`
+    -   `feat: добавить форму ввода параметров коробки`
+    -   `fix: исправить расчёт высоты штабеля`
+    -   `style: обновить стили карточки результатов`
+    -   `refactor: декомпозировать StackCalculator`
+    -   `test: добавить тесты для расчёта штабелирования`
 
 ## Запрещено
 
-- Магические числа и строки (использовать константы/переменные)
-- Компоненты больше 300 строк
-- Строки длиннее 100 символов
-- Функции без типов
-- `any` тип (использовать `unknown` или конкретный тип)
-- Inline стили (использовать SCSS классы)
-- `!important` в CSS
-- Прямые обращения к DOM (использовать ref и Vue API)
+-   Магические числа и строки (использовать константы/переменные)
+-   Компоненты больше 300 строк
+-   Строки длиннее 100 символов
+-   Функции без типов
+-   `any` тип (использовать `unknown` или конкретный тип)
+-   Inline стили (использовать SCSS классы)
+-   `!important` в CSS
+-   Прямые обращения к DOM (использовать ref и Vue API)

@@ -5,47 +5,47 @@
 
 ---
 
-## - [ ] Задача 1. Типы и интерфейсы
+## - [x] Задача 1. Типы и интерфейсы
 
 **Цель:** определить TypeScript-типы для всего приложения.
 
 **Файлы:**
 
-- [ ] `src/types/cardboardGrade.ts` — интерфейс марки картона (`CardboardGrade`)
-- [ ] `src/types/boxParams.ts` — параметры коробки (`BoxParams`: length, width, height, grossWeight, gradeId)
-- [ ] `src/types/calculationResult.ts` — результат расчёта (`CalculationResult`: maxStackHeight, rowCount, maxWeightPerBox)
-- [ ] `src/types/index.ts` — реэкспорт всех типов
+-   [x] `src/types/cardboardGrade.ts` — интерфейс марки картона (`CardboardGrade`)
+-   [x] `src/types/boxParams.ts` — параметры коробки (`BoxParams`: length, width, height, grossWeight, gradeId)
+-   [x] `src/types/calculationResult.ts` — результат расчёта (`CalculationResult`: maxStackHeight, rowCount, maxWeightPerBox)
+-   [x] `src/types/index.ts` — реэкспорт всех типов
 
 **Критерий готовности:** `npm run type-check` проходит без ошибок.
 
 ---
 
-## - [ ] Задача 2. API-сервис
+## - [x] Задача 2. API-сервис
 
 **Цель:** слой взаимодействия с бэкендом через `/api` прокси.
 
 **Файлы:**
 
-- [ ] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
-- [ ] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
-- [ ] `src/api/calculationApi.ts` — запрос расчёта штабелирования
-- [ ] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
-- [ ] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
+-   [x] `src/api/httpClient.ts` — базовый HTTP-клиент (fetch-обёртка с обработкой ошибок)
+-   [x] `src/api/cardboardGradeApi.ts` — CRUD марок картона (getAll, create, update, delete)
+-   [x] `src/api/calculationApi.ts` — запрос расчёта штабелирования
+-   [x] `src/api/cardboardGradeApi.test.ts` — unit-тесты API марок картона
+-   [x] `src/api/calculationApi.test.ts` — unit-тесты API расчёта
 
 **Критерий готовности:** unit-тесты проходят (`npm run test`), типы корректны.
 
 ---
 
-## - [ ] Задача 3. Стор (Pinia)
+## - [x] Задача 3. Стор (Pinia)
 
 **Цель:** управление состоянием приложения.
 
 **Файлы:**
 
-- [ ] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
-- [ ] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
-- [ ] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
-- [ ] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
+-   [x] `src/stores/cardboardGradeStore.ts` — стор марок картона (загрузка, CRUD)
+-   [x] `src/stores/adminStore.ts` — стор авторизации админа (isAuthenticated, login, logout)
+-   [x] `src/stores/cardboardGradeStore.test.ts` — unit-тесты стора марок
+-   [x] `src/stores/adminStore.test.ts` — unit-тесты стора авторизации
 
 **Зависимости:** Задача 1 (типы), Задача 2 (API-сервис).
 
@@ -53,18 +53,18 @@
 
 ---
 
-## - [ ] Задача 4. Composables
+## - [x] Задача 4. Composables
 
 **Цель:** переиспользуемая логика для компонентов.
 
 **Файлы:**
 
-- [ ] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
-- [ ] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
-- [ ] `src/composables/useAdmin.ts` — логика авторизации админа
-- [ ] `src/composables/useStackCalculation.test.ts` — unit-тесты
-- [ ] `src/composables/useCardboardGrades.test.ts` — unit-тесты
-- [ ] `src/composables/useAdmin.test.ts` — unit-тесты
+-   [x] `src/composables/useStackCalculation.ts` — отправка параметров на расчёт, хранение результата
+-   [x] `src/composables/useCardboardGrades.ts` — доступ к маркам картона из стора
+-   [x] `src/composables/useAdmin.ts` — логика авторизации админа
+-   [x] `src/composables/useStackCalculation.test.ts` — unit-тесты
+-   [x] `src/composables/useCardboardGrades.test.ts` — unit-тесты
+-   [x] `src/composables/useAdmin.test.ts` — unit-тесты
 
 **Зависимости:** Задача 3 (стор).
 
@@ -72,33 +72,33 @@
 
 ---
 
-## - [ ] Задача 5. Базовые UI-компоненты
+## - [x] Задача 5. Базовые UI-компоненты
 
 **Цель:** переиспользуемые UI-элементы с BEM/SCSS.
 
 **Файлы:**
 
-- [ ] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
-- [ ] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
-- [ ] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
-- [ ] `src/components/ui/BaseInput.test.ts` — unit-тесты
-- [ ] `src/components/ui/BaseButton.test.ts` — unit-тесты
-- [ ] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
-- [ ] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
-- [ ] `src/styles/_mixins.scss` — SCSS-миксины
+-   [x] `src/components/ui/BaseInput.vue` — текстовое поле (label, placeholder, ошибка валидации)
+-   [x] `src/components/ui/BaseButton.vue` — кнопка (варианты: primary, secondary, danger)
+-   [x] `src/components/ui/BaseDropdown.vue` — выпадающий список (options, modelValue, placeholder)
+-   [x] `src/components/ui/BaseInput.test.ts` — unit-тесты
+-   [x] `src/components/ui/BaseButton.test.ts` — unit-тесты
+-   [x] `src/components/ui/BaseDropdown.test.ts` — unit-тесты
+-   [x] `src/styles/_variables.scss` — SCSS-переменные (цвета, размеры, отступы)
+-   [x] `src/styles/_mixins.scss` — SCSS-миксины
 
 **Критерий готовности:** компоненты рендерятся, принимают props, эмитят события, тесты проходят.
 
 ---
 
-## - [ ] Задача 6. Форма ввода параметров
+## - [x] Задача 6. Форма ввода параметров
 
 **Цель:** компонент BoxInputForm с 5 полями ввода.
 
 **Файлы:**
 
-- [ ] `src/components/BoxInputForm.vue` — форма: длина, ширина, высота (мм), масса брутто (кг), марка картона (дропдаун)
-- [ ] `src/components/BoxInputForm.test.ts` — unit-тесты
+-   [x] `src/components/BoxInputForm.vue` — форма: длина, ширина, высота (мм), масса брутто (кг), марка картона (дропдаун)
+-   [x] `src/components/BoxInputForm.test.ts` — unit-тесты
 
 **Зависимости:** Задача 4 (composables), Задача 5 (UI-компоненты).
 
@@ -106,14 +106,14 @@
 
 ---
 
-## - [ ] Задача 7. Блок результатов
+## - [x] Задача 7. Блок результатов
 
 **Цель:** компонент ResultsDisplay для отображения 3 результатов расчёта.
 
 **Файлы:**
 
-- [ ] `src/components/ResultsDisplay.vue` — макс. высота штабеля (мм), кол-во рядов (шт), макс. масса на коробку (кг)
-- [ ] `src/components/ResultsDisplay.test.ts` — unit-тесты
+-   [x] `src/components/ResultsDisplay.vue` — макс. высота штабеля (мм), кол-во рядов (шт), макс. масса на коробку (кг)
+-   [x] `src/components/ResultsDisplay.test.ts` — unit-тесты
 
 **Зависимости:** Задача 1 (типы).
 
@@ -121,14 +121,14 @@
 
 ---
 
-## - [ ] Задача 8. Главная страница
+## - [x] Задача 8. Главная страница
 
 **Цель:** сборка формы и результатов в `App.vue`.
 
 **Файлы:**
 
-- [ ] `src/App.vue` — подключение BoxInputForm + ResultsDisplay, вызов расчёта
-- [ ] `src/styles/main.scss` — глобальные стили приложения
+-   [x] `src/App.vue` — подключение BoxInputForm + ResultsDisplay, вызов расчёта
+-   [x] `src/styles/main.scss` — глобальные стили приложения
 
 **Зависимости:** Задача 6 (форма), Задача 7 (результаты).
 
@@ -142,10 +142,10 @@
 
 **Файлы:**
 
-- [ ] `src/components/AdminLogin.vue` — форма входа админа
-- [ ] `src/components/AdminPanel.vue` — таблица марок картона с кнопками добавить/редактировать/удалить
-- [ ] `src/components/AdminLogin.test.ts` — unit-тесты
-- [ ] `src/components/AdminPanel.test.ts` — unit-тесты
+-   [ ] `src/components/AdminLogin.vue` — форма входа админа
+-   [ ] `src/components/AdminPanel.vue` — таблица марок картона с кнопками добавить/редактировать/удалить
+-   [ ] `src/components/AdminLogin.test.ts` — unit-тесты
+-   [ ] `src/components/AdminPanel.test.ts` — unit-тесты
 
 **Зависимости:** Задача 4 (composables), Задача 5 (UI-компоненты).
 
@@ -159,9 +159,102 @@
 
 **Файлы:**
 
-- [ ] `e2e/calculator.spec.ts` — сценарий: заполнение формы → получение результата
-- [ ] `e2e/admin.spec.ts` — сценарий: вход админа → CRUD марок картона
+-   [ ] `e2e/calculator.spec.ts` — сценарий: заполнение формы → получение результата
+-   [ ] `e2e/admin.spec.ts` — сценарий: вход админа → CRUD марок картона
 
 **Зависимости:** Задачи 8, 9 (всё приложение собрано).
 
 **Критерий готовности:** `npm run test:e2e` проходит, все сценарии зелёные.
+
+---
+
+## - [ ] Задача 11. Расчётная утилита (фронтенд)
+
+**Цель:** реализовать логику расчёта штабелирования на фронтенде. Формулы в файле `Калькулятор.xlsx`.
+
+**Файлы:**
+
+-   [ ] `src/types/gradeProperties.ts` — интерфейс `GradeProperties { thickness: number; crushResistance: number }`
+-   [ ] `src/types/index.ts` — реэкспорт `GradeProperties`
+-   [ ] `src/utils/constants.ts` — константы расчёта
+-   [ ] `src/utils/stackCalculation.ts` — чистая функция `calculateStacking(params: BoxParams, grade: GradeProperties): CalculationResult`
+-   [ ] `src/utils/stackCalculation.test.ts` — unit-тесты
+
+**Зависимости:** Задача 1 (типы).
+
+**Критерий готовности:** unit-тесты проходят (`npm run test`), функция возвращает корректные результаты по формулам из `Калькулятор.xlsx`.
+
+---
+
+## - [ ] Задача 12. Бэкенд Express
+
+**Цель:** Express-сервер в папке `server/` с CRUD марок картона, эндпоинтом расчёта и авторизацией админа. Свойства марок (thickness, crushResistance) хранятся отдельным маппингом (не в CardboardGrade). Формулы в файле `Калькулятор.xlsx`.
+
+### Авторизация и безопасность
+
+**Хеширование пароля:**
+
+-   Пароль админа хранится в `.env` как bcrypt-хеш (`ADMIN_PASSWORD_HASH`)
+-   Библиотека: `bcryptjs` (чистый JS, без нативных зависимостей)
+-   При POST `/login` сервер сравнивает пароль с хешем через `bcryptjs.compare()`
+
+**JWT-токены:**
+
+-   При успешном логине сервер создаёт JWT с payload `{ sub: username }`, TTL 8 часов
+-   Секрет подписи — `JWT_SECRET` из `.env`
+-   Фронтенд отправляет токен в заголовке `Authorization: Bearer <token>`
+
+**Хранение секретов:**
+
+-   Файл `.env` (НЕ коммитится, добавлен в `.gitignore`):
+    ```
+    ADMIN_USERNAME=admin
+    ADMIN_PASSWORD_HASH=$2a$10$...
+    JWT_SECRET=<случайная строка 32+ символов>
+    PORT=5011
+    ```
+-   Файл `.env.example` (коммитится) — шаблон без значений
+
+**Защищённые маршруты:**
+
+-   POST/PUT/DELETE `/grades` — требуют JWT (authMiddleware)
+-   GET `/grades`, POST `/calculate`, POST `/login` — публичные
+
+### Зависимости для установки
+
+**Runtime:** `bcryptjs`, `jsonwebtoken`, `dotenv`
+**Dev:** `tsx`, `@types/express`, `@types/cors`, `@types/jsonwebtoken`, `@types/bcryptjs`
+
+> `express`, `cors`, `uuid`, `nodemon` — уже установлены
+
+### Файлы
+
+-   [ ] `server/app.ts` — создание Express-приложения (cors, json, маршруты), экспорт для тестов
+-   [ ] `server/index.ts` — импорт app, запуск `.listen(PORT)`
+-   [ ] `server/config.ts` — загрузка `.env` через dotenv, экспорт типизированных констант
+-   [ ] `server/types.ts` — серверные интерфейсы (GradeProperties, AuthPayload и др.)
+-   [ ] `server/middleware/authMiddleware.ts` — проверка JWT из заголовка Authorization
+-   [ ] `server/routes/grades.ts` — GET/POST/PUT/DELETE `/grades`
+-   [ ] `server/routes/calculate.ts` — POST `/calculate`
+-   [ ] `server/routes/auth.ts` — POST `/login`, `/logout`
+-   [ ] `server/helpers/jsonStore.ts` — чтение/запись JSON-файлов данных
+-   [ ] `server/data/grades.json` — начальные данные марок `[{id, name}]`
+-   [ ] `server/data/gradeProperties.json` — маппинг `gradeId → {thickness, crushResistance}`
+-   [ ] `tsconfig.server.json` — TypeScript-конфиг для серверного кода
+-   [ ] `.env` — секреты (не коммитится)
+-   [ ] `.env.example` — шаблон `.env`
+-   [ ] npm-скрипт `"server": "nodemon"` + `nodemon.json` с `exec: "tsx server/index.ts"`
+
+### Тесты
+
+Тесты серверного кода — рядом с исходниками (`*.test.ts`), с `// @vitest-environment node`:
+
+-   [ ] `server/routes/auth.test.ts`
+-   [ ] `server/routes/grades.test.ts`
+-   [ ] `server/routes/calculate.test.ts`
+-   [ ] `server/middleware/authMiddleware.test.ts`
+-   [ ] `server/helpers/jsonStore.test.ts`
+
+**Зависимости:** Задача 11 (расчётная утилита).
+
+**Критерий готовности:** сервер запускается на порту 5011, CRUD марок работает, эндпоинт расчёта возвращает корректные результаты, авторизация админа через bcrypt + JWT функционирует, секреты не попадают в git.

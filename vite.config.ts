@@ -9,6 +9,16 @@ export default defineConfig({
 			'@': '/src',
 		},
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				additionalData: `
+					@use '@/styles/variables' as *;
+					@use '@/styles/mixins' as *;
+				`,
+			},
+		},
+	},
 	server: {
 		proxy: {
 			'/api': {
