@@ -84,7 +84,7 @@ function onFormSubmit(params: BoxParams) {
 		gap: $spacing-xl;
 		max-width: 600px;
 		width: 100%;
-		margin: 0 auto;
+		margin: 40px auto;
 		padding: $spacing-md;
 	}
 
