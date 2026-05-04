@@ -1,13 +1,80 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue';
+import AdminLogin from '@/components/AdminLogin.vue';
+import AdminPanel from '@/components/AdminPanel.vue';
 import BoxInputForm from '@/components/BoxInputForm.vue';
+import CalculationHistory from '@/components/CalculationHistory.vue';
 import ResultsDisplay from '@/components/ResultsDisplay.vue';
+import { useAdmin } from '@/composables/useAdmin';
+import { useCalculationHistory } from '@/composables/useCalculationHistory';
+import { useCardboardGrades } from '@/composables/useCardboardGrades';
 import { useStackCalculation } from '@/composables/useStackCalculation';
 import type { BoxParams } from '@/types';
 
 const { result, isLoading, error, calculate } = useStackCalculation();
+const { isAuthenticated } = useAdmin();
+const { grades } = useCardboardGrades();
 
-function onFormSubmit(params: BoxParams) {
-	calculate(params);
+const {
+	items: historyItems,
+	selectedItem,
+	addItem,
+	selectItem,
+	clearSelectedItem,
+	clearHistory,
+} = useCalculationHistory();
+
+const isAdminMode = ref(false);
+const isResultVisible = ref(true);
+
+const contentClass = computed(() => ({
+	'app__content--wide': isAdminMode.value && isAuthenticated.value,
+	'app__content--with-history': !isAdminMode.value,
+}));
+
+const displayedResult = computed(() => selectedItem.value?.result ?? result.value);
+
+function getGradeName(gradeId: string): string {
+	return grades.value.find((grade) => grade.id === gradeId)?.name ?? gradeId;
+}
+
+async function onFormSubmit(params: BoxParams): Promise<void> {
+	clearSelectedItem();
+	isResultVisible.value = true;
+
+	await calculate(params);
+
+	if (error.value || !result.value) {
+		return;
+	}
+
+	addItem({
+		params,
+		gradeName: getGradeName(params.gradeId),
+		result: result.value,
+	});
+}
+
+function openAdminMode(): void {
+	isAdminMode.value = true;
+}
+
+function closeAdminMode(): void {
+	isAdminMode.value = false;
+}
+
+function closeResult(): void {
+	isResultVisible.value = false;
+}
+
+function handleSelectHistoryItem(id: string): void {
+	selectItem(id);
+	isResultVisible.value = true;
+}
+
+function handleClearHistory(): void {
+	clearHistory();
+	isResultVisible.value = Boolean(result.value);
 }
 </script>
 
@@ -16,7 +83,14 @@ function onFormSubmit(params: BoxParams) {
 		<header class="app__header">
 			<div class="app__header-inner">
 				<h1 class="app__title">Калькулятор штабелирования коробок</h1>
-				<button class="app__admin-icon" disabled aria-label="Вход администратора">
+
+				<button
+					v-if="!isAdminMode"
+					class="app__admin-icon"
+					type="button"
+					aria-label="Вход администратора"
+					@click="openAdminMode"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -29,12 +103,45 @@ function onFormSubmit(params: BoxParams) {
 						/>
 					</svg>
 				</button>
+
+				<button v-else class="app__back-button" type="button" @click="closeAdminMode">
+					К калькулятору
+				</button>
 			</div>
 		</header>
-		<main class="app__content">
-			<BoxInputForm @submit="onFormSubmit" />
-			<div v-if="error" class="app__error">{{ error }}</div>
-			<ResultsDisplay :result="result" :is-loading="isLoading" />
+
+		<main class="app__content" :class="contentClass">
+			<template v-if="isAdminMode">
+				<AdminPanel v-if="isAuthenticated" />
+				<AdminLogin v-else />
+			</template>
+
+			<template v-else>
+				<div class="app__workspace">
+					<CalculationHistory
+						class="app__history"
+						:items="historyItems"
+						:selected-item="selectedItem"
+						@select="handleSelectHistoryItem"
+						@clear="handleClearHistory"
+					/>
+
+					<section class="app__calculator">
+						<BoxInputForm @submit="onFormSubmit" />
+
+						<div v-if="error" class="app__error">
+							{{ error }}
+						</div>
+
+						<ResultsDisplay
+							v-if="isLoading || !displayedResult || isResultVisible"
+							:result="displayedResult"
+							:is-loading="isLoading"
+							@close="closeResult"
+						/>
+					</section>
+				</div>
+			</template>
 		</main>
 	</div>
 </template>
@@ -52,11 +159,13 @@ function onFormSubmit(params: BoxParams) {
 	}
 
 	&__header-inner {
+		position: relative;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
-		max-width: 600px;
+		max-width: 1200px;
 		margin: 0 auto;
+		gap: $spacing-md;
 	}
 
 	&__title {
@@ -67,15 +176,41 @@ function onFormSubmit(params: BoxParams) {
 	}
 
 	&__admin-icon {
+		@include transition(background-color, opacity);
+
+		position: absolute;
+		right: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		padding: $spacing-sm;
 		border: none;
+		border-radius: $border-radius-md;
 		background: none;
 		color: $color-text-inverse;
-		opacity: 0.5;
-		cursor: not-allowed;
+		cursor: pointer;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+	}
+
+	&__back-button {
+		@include font-size('sm');
+		@include transition(background-color);
+
+		position: absolute;
+		right: 0;
+		padding: $spacing-sm $spacing-md;
+		border: $border-width solid rgba(255, 255, 255, 0.5);
+		border-radius: $border-radius-md;
+		background: transparent;
+		color: $color-text-inverse;
+		cursor: pointer;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.15);
+		}
 	}
 
 	&__content {
@@ -86,6 +221,29 @@ function onFormSubmit(params: BoxParams) {
 		width: 100%;
 		margin: 40px auto;
 		padding: $spacing-md;
+
+		&--wide {
+			max-width: 760px;
+		}
+
+		&--with-history {
+			max-width: 1200px;
+		}
+	}
+
+	&__workspace {
+		display: grid;
+		grid-template-columns: 280px minmax(0, 600px) 280px;
+		align-items: start;
+		justify-content: center;
+		gap: $spacing-xl;
+		width: 100%;
+	}
+
+	&__calculator {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-xl;
 	}
 
 	&__error {
@@ -96,6 +254,38 @@ function onFormSubmit(params: BoxParams) {
 		background-color: rgba($color-danger, 0.1);
 		color: $color-danger;
 		text-align: center;
+	}
+	&__history {
+		grid-column: 1;
+	}
+
+	&__calculator {
+		grid-column: 2;
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-xl;
+	}
+}
+
+@media (max-width: 900px) {
+	.app {
+		&__header-inner {
+			justify-content: space-between;
+		}
+
+		&__admin-icon,
+		&__back-button {
+			position: static;
+		}
+
+		&__workspace {
+			grid-template-columns: 1fr;
+		}
+
+		&__history,
+		&__calculator {
+			grid-column: 1;
+		}
 	}
 }
 </style>

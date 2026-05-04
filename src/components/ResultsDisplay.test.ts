@@ -62,7 +62,7 @@ describe('ResultsDisplay', () => {
 		});
 	});
 
-	describe('отображение результатов', () => {
+		describe('отображение результатов', () => {
 		it('отображает максимальную высоту штабеля', () => {
 			const wrapper = mount(ResultsDisplay, {
 				props: { result: mockResult, isLoading: false },
@@ -94,6 +94,21 @@ describe('ResultsDisplay', () => {
 			expect(el.exists()).toBe(true);
 			expect(el.text()).toContain('12.5');
 			expect(el.text()).toContain('кг');
+		});
+	});
+
+	describe('закрытие результата', () => {
+		it('эмитит close при клике по крестику', async () => {
+			const wrapper = mount(ResultsDisplay, {
+				props: {
+					result: mockResult,
+					isLoading: false,
+				},
+			});
+
+			await wrapper.find('[data-test="results-close"]').trigger('click');
+
+			expect(wrapper.emitted('close')).toEqual([[]]);
 		});
 	});
 });

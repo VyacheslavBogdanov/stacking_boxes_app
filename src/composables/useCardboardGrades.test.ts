@@ -1,14 +1,36 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useCardboardGrades } from './useCardboardGrades';
-import type { CardboardGrade } from '@/types';
+import type { CardboardGrade, CardboardGradePayload } from '@/types';
 
 vi.mock('@/api/cardboardGradeApi');
 
 const cardboardGradeApi = vi.mocked(await import('@/api/cardboardGradeApi'));
 
-const MOCK_GRADE: CardboardGrade = { id: '1', name: 'Т-23' };
-const MOCK_GRADES: CardboardGrade[] = [MOCK_GRADE, { id: '2', name: 'Т-24' }];
+const MOCK_GRADE: CardboardGrade = {
+	id: '1',
+	name: 'Т23',
+};
+
+const MOCK_GRADES: CardboardGrade[] = [
+	MOCK_GRADE,
+	{
+		id: '2',
+		name: 'Т24',
+	},
+];
+
+const CREATE_PAYLOAD: CardboardGradePayload = {
+	name: 'Т25',
+	thickness: 5,
+	crushResistance: 5.2,
+};
+
+const UPDATE_PAYLOAD: CardboardGradePayload = {
+	name: 'Т23 обновлённый',
+	thickness: 3.6,
+	crushResistance: 3.9,
+};
 
 describe('useCardboardGrades', () => {
 	beforeEach(() => {
@@ -19,16 +41,19 @@ describe('useCardboardGrades', () => {
 	describe('начальное состояние', () => {
 		it('должно иметь пустой массив grades', () => {
 			const { grades } = useCardboardGrades();
+
 			expect(grades.value).toEqual([]);
 		});
 
 		it('должно иметь isLoading = false', () => {
 			const { isLoading } = useCardboardGrades();
+
 			expect(isLoading.value).toBe(false);
 		});
 
 		it('должно иметь error = null', () => {
 			const { error } = useCardboardGrades();
+
 			expect(error.value).toBeNull();
 		});
 	});
@@ -36,6 +61,7 @@ describe('useCardboardGrades', () => {
 	describe('fetchGrades', () => {
 		it('должен загрузить марки через стор', async () => {
 			cardboardGradeApi.getAll.mockResolvedValue(MOCK_GRADES);
+
 			const { grades, fetchGrades } = useCardboardGrades();
 
 			await fetchGrades();
@@ -47,14 +73,18 @@ describe('useCardboardGrades', () => {
 
 	describe('addGrade', () => {
 		it('должен добавить марку через стор', async () => {
-			const newGrade = { name: 'Т-25' };
-			const createdGrade: CardboardGrade = { id: '3', ...newGrade };
+			const createdGrade: CardboardGrade = {
+				id: '3',
+				name: CREATE_PAYLOAD.name,
+			};
+
 			cardboardGradeApi.create.mockResolvedValue(createdGrade);
+
 			const { grades, addGrade } = useCardboardGrades();
 
-			await addGrade(newGrade);
+			await addGrade(CREATE_PAYLOAD);
 
-			expect(cardboardGradeApi.create).toHaveBeenCalledWith(newGrade);
+			expect(cardboardGradeApi.create).toHaveBeenCalledWith(CREATE_PAYLOAD);
 			expect(grades.value).toEqual([createdGrade]);
 		});
 	});
@@ -62,15 +92,23 @@ describe('useCardboardGrades', () => {
 	describe('updateGrade', () => {
 		it('должен обновить марку через стор', async () => {
 			cardboardGradeApi.getAll.mockResolvedValue([...MOCK_GRADES]);
-			const updatedData = { name: 'Т-23 обновлённый' };
-			const updatedGrade: CardboardGrade = { id: '1', ...updatedData };
+
+			const updatedGrade: CardboardGrade = {
+				id: '1',
+				name: UPDATE_PAYLOAD.name,
+			};
+
 			cardboardGradeApi.update.mockResolvedValue(updatedGrade);
+
 			const { grades, fetchGrades, updateGrade } = useCardboardGrades();
 
 			await fetchGrades();
-			await updateGrade('1', updatedData);
+			await updateGrade('1', UPDATE_PAYLOAD);
 
-			expect(cardboardGradeApi.update).toHaveBeenCalledWith('1', updatedData);
+			expect(cardboardGradeApi.update).toHaveBeenCalledWith(
+				'1',
+				UPDATE_PAYLOAD,
+			);
 			expect(grades.value[0]).toEqual(updatedGrade);
 		});
 	});
@@ -79,6 +117,7 @@ describe('useCardboardGrades', () => {
 		it('должен удалить марку через стор', async () => {
 			cardboardGradeApi.getAll.mockResolvedValue([...MOCK_GRADES]);
 			cardboardGradeApi.remove.mockResolvedValue(undefined);
+
 			const { grades, fetchGrades, removeGrade } = useCardboardGrades();
 
 			await fetchGrades();

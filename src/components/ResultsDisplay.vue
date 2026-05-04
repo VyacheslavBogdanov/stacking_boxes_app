@@ -8,6 +8,10 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const emit = defineEmits<{
+	close: [];
+}>();
+
 interface ResultItem {
 	key: keyof CalculationResult;
 	label: string;
@@ -22,7 +26,12 @@ const RESULT_ITEMS: ResultItem[] = [
 		unit: 'мм',
 		testId: 'max-stack-height',
 	},
-	{ key: 'rowCount', label: 'Количество рядов', unit: 'шт', testId: 'row-count' },
+	{
+		key: 'rowCount',
+		label: 'Количество рядов',
+		unit: 'шт',
+		testId: 'row-count',
+	},
 	{
 		key: 'maxWeightPerBox',
 		label: 'Макс. масса на коробку',
@@ -37,19 +46,37 @@ const RESULT_ITEMS: ResultItem[] = [
 		<div v-if="props.isLoading" class="results-display__loading" data-test="results-loading">
 			Загрузка...
 		</div>
+
 		<div v-else-if="!props.result" class="results-display__empty" data-test="results-empty">
 			Введите параметры коробки и нажмите «Рассчитать»
 		</div>
+
 		<div v-else class="results-display__content" data-test="results-content">
+			<button
+				class="results-display__close"
+				type="button"
+				aria-label="Закрыть результаты расчёта"
+				data-test="results-close"
+				@click="emit('close')"
+			>
+				×
+			</button>
+
 			<div
 				v-for="item in RESULT_ITEMS"
 				:key="item.key"
 				class="results-display__item"
 				:data-test="item.testId"
 			>
-				<span class="results-display__item-label">{{ item.label }}</span>
-				<span class="results-display__item-value">{{ props.result[item.key] }}</span>
-				<span class="results-display__item-unit">{{ item.unit }}</span>
+				<span class="results-display__item-label">
+					{{ item.label }}
+				</span>
+				<span class="results-display__item-value">
+					{{ props.result[item.key] }}
+				</span>
+				<span class="results-display__item-unit">
+					{{ item.unit }}
+				</span>
 			</div>
 		</div>
 	</div>
@@ -74,9 +101,32 @@ const RESULT_ITEMS: ResultItem[] = [
 	}
 
 	&__content {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: $spacing-md;
+	}
+
+	&__close {
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		border: $border-width solid $color-border;
+		border-radius: 50%;
+		background-color: $color-bg;
+		color: $color-text-secondary;
+		font-size: 22px;
+		line-height: 1;
+		cursor: pointer;
+
+		&:hover {
+			color: $color-text;
+		}
 	}
 
 	&__item {

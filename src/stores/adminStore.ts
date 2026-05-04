@@ -1,32 +1,67 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import * as authApi from '@/api/authApi';
+import { setAuthToken } from '@/api/httpClient';
+import type { LoginCredentials } from '@/api/authApi';
 
-export interface LoginCredentials {
-	username: string;
-	password: string;
+export type { LoginCredentials };
+
+const ADMIN_TOKEN_STORAGE_KEY = 'stacking-boxes-admin-token';
+
+function readTokenFromStorage(): string | null {
+	return localStorage.getItem(ADMIN_TOKEN_STORAGE_KEY);
 }
 
-// TODO: заменить на вызов authApi после реализации Задачи 12 (бэкенд auth)
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'admin';
+function writeTokenToStorage(token: string): void {
+	localStorage.setItem(ADMIN_TOKEN_STORAGE_KEY, token);
+}
+
+function removeTokenFromStorage(): void {
+	localStorage.removeItem(ADMIN_TOKEN_STORAGE_KEY);
+}
 
 export const useAdminStore = defineStore('admin', () => {
-	const isAuthenticated = ref(false);
+	const initialToken = readTokenFromStorage();
 
-	function login(credentials: LoginCredentials): void {
-		if (credentials.username !== ADMIN_USERNAME || credentials.password !== ADMIN_PASSWORD) {
-			throw new Error('Неверный логин или пароль');
-		}
+	const isAuthenticated = ref(Boolean(initialToken));
+	const token = ref<string | null>(initialToken);
+
+	if (initialToken) {
+		setAuthToken(initialToken);
+	}
+
+	async function login(credentials: LoginCredentials): Promise<void> {
+		const response = await authApi.login(credentials);
+
+		token.value = response.token;
+		setAuthToken(response.token);
+		writeTokenToStorage(response.token);
 		isAuthenticated.value = true;
 	}
 
-	function logout(): void {
+	async function logout(): Promise<void> {
+		try {
+			await authApi.logout();
+		} finally {
+			token.value = null;
+			setAuthToken(null);
+			removeTokenFromStorage();
+			isAuthenticated.value = false;
+		}
+	}
+
+	function clearAuth(): void {
+		token.value = null;
+		setAuthToken(null);
+		removeTokenFromStorage();
 		isAuthenticated.value = false;
 	}
 
 	return {
 		isAuthenticated,
+		token,
 		login,
 		logout,
+		clearAuth,
 	};
 });

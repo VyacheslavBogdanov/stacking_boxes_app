@@ -1,0 +1,22 @@
+{
+	"extends": "@tsconfig/node22/tsconfig.json",
+	"compilerOptions": {
+		"strict": true,
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"types": ["node"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": [
+		"server/**/*.ts",
+		"src/types/**/*.ts",
+		"src/utils/constants.ts",
+		"src/utils/stackCalculation.ts"
+	],
+	"exclude": ["**/*.test.ts"]
+}

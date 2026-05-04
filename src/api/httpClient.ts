@@ -1,5 +1,11 @@
 const BASE_URL = '/api';
 
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null): void {
+	authToken = token;
+}
+
 export class ApiError extends Error {
 	status: number;
 	body: unknown;
@@ -13,10 +19,18 @@ export class ApiError extends Error {
 }
 
 export async function request<T>(url: string, options?: RequestInit): Promise<T> {
+	const headers: Record<string, string> = {
+		'Content-Type': 'application/json',
+	};
+
+	if (authToken) {
+		headers.Authorization = `Bearer ${authToken}`;
+	}
+
 	const response = await fetch(`${BASE_URL}${url}`, {
 		...options,
 		headers: {
-			'Content-Type': 'application/json',
+			...headers,
 			...options?.headers,
 		},
 	});

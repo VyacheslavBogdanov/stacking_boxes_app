@@ -7,27 +7,40 @@ export type { LoginCredentials };
 
 export function useAdmin() {
 	const store = useAdminStore();
-	const { isAuthenticated } = storeToRefs(store);
+	const { isAuthenticated, token } = storeToRefs(store);
 	const loginError = ref<string | null>(null);
+	const isLoading = ref(false);
 
-	function login(credentials: LoginCredentials): void {
+	async function login(credentials: LoginCredentials): Promise<void> {
+		isLoading.value = true;
+		loginError.value = null;
+
 		try {
-			store.login(credentials);
-			loginError.value = null;
-		} catch (e) {
-			loginError.value = e instanceof Error ? e.message : 'Неизвестная ошибка';
+			await store.login(credentials);
+		} catch {
+			loginError.value = 'Неверный логин или пароль';
+		} finally {
+			isLoading.value = false;
 		}
 	}
 
-	function logout(): void {
-		store.logout();
+	async function logout(): Promise<void> {
+		await store.logout();
+		loginError.value = null;
+	}
+
+	function clearAuth(): void {
+		store.clearAuth();
 		loginError.value = null;
 	}
 
 	return {
 		isAuthenticated: readonly(isAuthenticated),
+		token: readonly(token),
 		loginError: readonly(loginError),
+		isLoading: readonly(isLoading),
 		login,
 		logout,
+		clearAuth,
 	};
 }
