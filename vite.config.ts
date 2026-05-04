@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from 'node:url';
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
@@ -6,23 +8,20 @@ export default defineConfig({
 	plugins: [vue(), vueDevTools()],
 	resolve: {
 		alias: {
-			'@': '/src',
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
 	},
 	css: {
 		preprocessorOptions: {
 			scss: {
-				additionalData: `
-					@use '@/styles/variables' as *;
-					@use '@/styles/mixins' as *;
-				`,
+				additionalData: '@use "@/styles/globals" as *;',
 			},
 		},
 	},
 	server: {
 		proxy: {
 			'/api': {
-				target: 'http://localhost:5011',
+				target: 'http://127.0.0.1:5011',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ''),
 			},

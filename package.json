@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "nodemon",
+	"server:e2e": "tsx server/index.ts",
     "dev:full": "run-p server dev",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -14,8 +15,8 @@
     "type-check:server": "tsc -p tsconfig.server.json --noEmit",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --environment happy-dom",
+	"test:watch": "vitest --environment happy-dom",
     "test:e2e": "playwright test"
   },
   "eslintConfig": {

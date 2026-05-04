@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import AdminLogin from '@/components/AdminLogin.vue';
 import AdminPanel from '@/components/AdminPanel.vue';
 import BoxInputForm from '@/components/BoxInputForm.vue';
@@ -24,7 +24,7 @@ const {
 	clearHistory,
 } = useCalculationHistory();
 
-const isAdminMode = ref(false);
+const isAdminMode = ref(isAuthenticated.value);
 const isResultVisible = ref(true);
 
 const contentClass = computed(() => ({
@@ -33,6 +33,10 @@ const contentClass = computed(() => ({
 }));
 
 const displayedResult = computed(() => selectedItem.value?.result ?? result.value);
+
+watch(isAuthenticated, (value) => {
+	isAdminMode.value = value;
+});
 
 function getGradeName(gradeId: string): string {
 	return grades.value.find((grade) => grade.id === gradeId)?.name ?? gradeId;
@@ -240,7 +244,12 @@ function handleClearHistory(): void {
 		width: 100%;
 	}
 
+	&__history {
+		grid-column: 1;
+	}
+
 	&__calculator {
+		grid-column: 2;
 		display: flex;
 		flex-direction: column;
 		gap: $spacing-xl;
@@ -254,16 +263,6 @@ function handleClearHistory(): void {
 		background-color: rgba($color-danger, 0.1);
 		color: $color-danger;
 		text-align: center;
-	}
-	&__history {
-		grid-column: 1;
-	}
-
-	&__calculator {
-		grid-column: 2;
-		display: flex;
-		flex-direction: column;
-		gap: $spacing-xl;
 	}
 }
 
