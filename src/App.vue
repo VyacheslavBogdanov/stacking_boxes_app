@@ -11,6 +11,8 @@ import { useCardboardGrades } from '@/composables/useCardboardGrades';
 import { useStackCalculation } from '@/composables/useStackCalculation';
 import type { BoxParams } from '@/types';
 
+const ADMIN_MODE_STORAGE_KEY = 'stacking-boxes-admin-mode';
+
 const { result, isLoading, error, calculate } = useStackCalculation();
 const { isAuthenticated } = useAdmin();
 const { grades } = useCardboardGrades();
@@ -24,7 +26,11 @@ const {
 	clearHistory,
 } = useCalculationHistory();
 
-const isAdminMode = ref(isAuthenticated.value);
+function getInitialAdminMode(): boolean {
+	return sessionStorage.getItem(ADMIN_MODE_STORAGE_KEY) === 'true';
+}
+
+const isAdminMode = ref(getInitialAdminMode());
 const isResultVisible = ref(true);
 
 const contentClass = computed(() => ({
@@ -34,8 +40,15 @@ const contentClass = computed(() => ({
 
 const displayedResult = computed(() => selectedItem.value?.result ?? result.value);
 
-watch(isAuthenticated, (value) => {
+function setAdminMode(value: boolean): void {
 	isAdminMode.value = value;
+	sessionStorage.setItem(ADMIN_MODE_STORAGE_KEY, String(value));
+}
+
+watch(isAuthenticated, (value) => {
+	if (!value) {
+		setAdminMode(false);
+	}
 });
 
 function getGradeName(gradeId: string): string {
@@ -60,11 +73,11 @@ async function onFormSubmit(params: BoxParams): Promise<void> {
 }
 
 function openAdminMode(): void {
-	isAdminMode.value = true;
+	setAdminMode(true);
 }
 
 function closeAdminMode(): void {
-	isAdminMode.value = false;
+	setAdminMode(false);
 }
 
 function closeResult(): void {

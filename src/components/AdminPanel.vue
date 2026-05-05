@@ -163,7 +163,7 @@ async function handleRemove(id: string): Promise<void> {
 			<BaseInput
 				v-model="form.thickness"
 				id="grade-thickness"
-				label="Толщина"
+				label="Толщина, мм"
 				type="number"
 				placeholder="Например, 5"
 			/>
