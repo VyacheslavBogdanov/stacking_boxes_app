@@ -1,0 +1,4 @@
+export const STORAGE_SAFETY_FACTOR = 1.85;
+export const GRAVITY_ACCELERATION = 9.81;
+export const MCKEE_COEFFICIENT = 2.55;
+export const STACK_HEIGHT_REDUCTION_FACTOR = 0.1;

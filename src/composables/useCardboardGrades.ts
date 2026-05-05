@@ -1,21 +1,28 @@
 import { readonly } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCardboardGradeStore } from '@/stores/cardboardGradeStore';
-import type { CardboardGrade } from '@/types';
+import type { CardboardGradePayload } from '@/types';
 
 export function useCardboardGrades() {
 	const store = useCardboardGradeStore();
-	const { grades, isLoading, error } = storeToRefs(store);
+	const { grades, adminGrades, isLoading, error } = storeToRefs(store);
 
 	function fetchGrades(): Promise<void> {
 		return store.fetchGrades();
 	}
 
-	function addGrade(grade: Omit<CardboardGrade, 'id'>): Promise<void> {
+	function fetchAdminGrades(): Promise<void> {
+		return store.fetchAdminGrades();
+	}
+
+	function addGrade(grade: CardboardGradePayload): Promise<void> {
 		return store.addGrade(grade);
 	}
 
-	function updateGrade(id: string, grade: Omit<CardboardGrade, 'id'>): Promise<void> {
+	function updateGrade(
+		id: string,
+		grade: CardboardGradePayload,
+	): Promise<void> {
 		return store.updateGrade(id, grade);
 	}
 
@@ -25,9 +32,11 @@ export function useCardboardGrades() {
 
 	return {
 		grades: readonly(grades),
+		adminGrades: readonly(adminGrades),
 		isLoading: readonly(isLoading),
 		error: readonly(error),
 		fetchGrades,
+		fetchAdminGrades,
 		addGrade,
 		updateGrade,
 		removeGrade,

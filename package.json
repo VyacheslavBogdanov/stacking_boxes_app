@@ -5,14 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "nodemon",
+	"server:e2e": "tsx server/index.ts",
+    "dev:full": "run-p server dev",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
+    "type-check:server": "tsc -p tsconfig.server.json --noEmit",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --environment happy-dom",
+	"test:watch": "vitest --environment happy-dom",
     "test:e2e": "playwright test"
   },
   "eslintConfig": {
@@ -24,10 +28,13 @@
     ]
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.3",
     "pinia": "^3.0.4",
     "uuid": "^11.0.3",
     "vue": "^3.5.12"
@@ -35,7 +42,12 @@
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@tsconfig/node22": "^22.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.9.0",
+    "@types/supertest": "^7.2.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.1.3",
@@ -49,7 +61,9 @@
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.3.3",
     "sass-embedded": "^1.81.0",
-    "typescript": "~5.6.3",
+    "supertest": "^7.2.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
     "vite": "^5.4.10",
     "vite-plugin-vue-devtools": "^7.5.4",
     "vitest": "^4.1.4",

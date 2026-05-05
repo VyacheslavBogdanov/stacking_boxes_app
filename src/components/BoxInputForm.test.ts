@@ -13,6 +13,7 @@ vi.mock('@/api/cardboardGradeApi', () => ({
 		{ id: '1', name: 'Т-21' },
 		{ id: '2', name: 'Т-22' },
 	]),
+	getAllForAdmin: vi.fn(),
 	create: vi.fn(),
 	update: vi.fn(),
 	remove: vi.fn(),
@@ -81,16 +82,21 @@ describe('BoxInputForm', () => {
 
 		it('отображает марки в выпадающем списке после загрузки', async () => {
 			const wrapper = mount(BoxInputForm);
+
 			await flushPromises();
+
+			await wrapper
+				.find('[data-test="grade-dropdown"]')
+				.find('[data-test="dropdown-select"]')
+				.trigger('click');
 
 			const options = wrapper
 				.find('[data-test="grade-dropdown"]')
-				.findAll('option')
-				.filter((o) => o.attributes('disabled') === undefined);
+				.findAll('[data-test="dropdown-option"]');
 
 			expect(options).toHaveLength(mockGrades.length);
-			expect(options[0].text()).toBe('Т-21');
-			expect(options[1].text()).toBe('Т-22');
+			expect(options[0].text()).toContain('Т-21');
+			expect(options[1].text()).toContain('Т-22');
 		});
 	});
 
@@ -179,13 +185,16 @@ describe('BoxInputForm', () => {
 			const widthInput = wrapper.find('[data-test="width-input"]').find('input');
 			const heightInput = wrapper.find('[data-test="height-input"]').find('input');
 			const grossWeightInput = wrapper.find('[data-test="gross-weight-input"]').find('input');
-			const gradeSelect = wrapper.find('[data-test="grade-dropdown"]').find('select');
 
 			await lengthInput.setValue('300');
 			await widthInput.setValue('200');
 			await heightInput.setValue('150');
 			await grossWeightInput.setValue('10');
-			await gradeSelect.setValue('1');
+
+			const dropdown = wrapper.find('[data-test="grade-dropdown"]');
+
+			await dropdown.find('[data-test="dropdown-select"]').trigger('click');
+			await dropdown.findAll('[data-test="dropdown-option"]')[0].trigger('click');
 		}
 
 		it('эмитит submit с BoxParams при валидной форме', async () => {

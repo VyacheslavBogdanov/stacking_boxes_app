@@ -77,7 +77,7 @@ onMounted(() => {
 			<div class="box-input-form__field" data-test="length-input">
 				<BaseInput
 					v-model="length"
-					label="Длина"
+					label="Длина, мм"
 					id="length"
 					type="number"
 					placeholder="мм"
@@ -87,7 +87,7 @@ onMounted(() => {
 			<div class="box-input-form__field" data-test="width-input">
 				<BaseInput
 					v-model="width"
-					label="Ширина"
+					label="Ширина, мм"
 					id="width"
 					type="number"
 					placeholder="мм"
@@ -97,7 +97,7 @@ onMounted(() => {
 			<div class="box-input-form__field" data-test="height-input">
 				<BaseInput
 					v-model="height"
-					label="Высота"
+					label="Высота, мм"
 					id="height"
 					type="number"
 					placeholder="мм"
@@ -107,7 +107,7 @@ onMounted(() => {
 			<div class="box-input-form__field" data-test="gross-weight-input">
 				<BaseInput
 					v-model="grossWeight"
-					label="Масса брутто"
+					label="Масса брутто, кг"
 					id="gross-weight"
 					type="number"
 					placeholder="кг"
